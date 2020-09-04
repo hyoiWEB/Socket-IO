@@ -15,14 +15,14 @@ const io = socketIO(server);
 io.on('connection', (socket) => {
   console.log('Client connected');
   socket.on('disconnect', () => console.log('Client disconnected'));
-});
 
-io.on("from_client", function(msg){
+  socket.on("from_client", function(msg){
    console.log("receive: " + msg);
 
    console.log("send message");
    socket.emit("from_server", "welcome");
-});
+  });
 
+});
 
 setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
