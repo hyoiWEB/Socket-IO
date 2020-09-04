@@ -17,7 +17,7 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => console.log('Client disconnected'));
 });
 
-socket.on("from_client", function(msg){
+io.on("from_client", function(msg){
    console.log("receive: " + msg);
 
    console.log("send message");
