@@ -17,4 +17,12 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => console.log('Client disconnected'));
 });
 
+socket.on("from_client", function(msg){
+   console.log("receive: " + msg);
+
+   console.log("send message");
+   socket.emit("from_server", "welcome");
+});
+
+
 setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
