@@ -1,12 +1,17 @@
 <html>
   <head>
-    <script src="index.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script>
-    console.log = function (log) {
-    document.getElementById('console_log').innerHTML += log + "<br>";}
+      let socket = io();
+      let el;
+
+      socket.on('time', (timeString) => {
+        el = document.getElementById('server-time');
+        el.innerHTML = 'Server time: ' + timeString;
+      });
     </script>
   </head>
   <body>
-    <div id="console_log"></div>
+    <p id="server-time"></p>
   </body>
 </html>
