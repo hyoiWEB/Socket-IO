@@ -1,26 +1,20 @@
-var http = require("http");
-var server = http.createServer(function(req,res) {
-    res.write("Hello World!!");
-    res.end();
+'use strict';
+
+const express = require('express');
+const socketIO = require('socket.io');
+
+const PORT = process.env.PORT || 3000;
+const INDEX = '/index.html';
+
+const server = express()
+  .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+  .listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+const io = socketIO(server);
+
+io.on('connection', (socket) => {
+  console.log('Client connected');
+  socket.on('disconnect', () => console.log('Client disconnected'));
 });
 
-// socket.ioの準備
-var io = require('socket.io')(server);
-
-// クライアント接続時の処理
-io.on('connection', function(socket) {
-    console.log("client connected!!")
-
-    // クライアント切断時の処理
-    socket.on('disconnect', function() {
-        console.log("client disconnected!!")
-    });
-    // クライアントからの受信を受ける (socket.on)
-    socket.on("from_client", function(obj){
-        console.log(obj)
-        socket.emit("from_server",obj);
-    });
-});
-
-
-server.listen(8080);
+setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
