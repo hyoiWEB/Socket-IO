@@ -24,5 +24,3 @@ io.on('connection', (socket) => {
   });
 
 });
-
-setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
