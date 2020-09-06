@@ -20,7 +20,7 @@ io.on('connection', (socket) => {
    console.log("receive: " + msg);
 
    console.log("send message");
-   socket.emit("from_server", msg);
+   socket.emit("event", msg);
   });
 
 });
