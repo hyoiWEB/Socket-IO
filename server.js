@@ -24,6 +24,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('client_to_server_broadcast', function(msg) {
+  	console.log("send message broadcast");
        socket.broadcast.emit('server_to_client', {value: msg.value});
   });
 
