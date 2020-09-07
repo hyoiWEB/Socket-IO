@@ -19,12 +19,8 @@ io.on('connection', (socket) => {
   socket.on("from_client", function(msg){
    console.log("receive: " + msg);
 
-   socket.clients.forEach(function(socket){
-
    console.log("send message");
    socket.emit("from_server", msg);
-
-   });
   });
 
 });
