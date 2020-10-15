@@ -23,5 +23,12 @@ io.on('connection', (socket) => {
    socket.emit("from_server", msg);
   });
 
+  socket.on("from_client2", function(msg){
+   console.log("receive: " + msg);
+
+   console.log("send message");
+   socket.emit("from_server2", msg);
+  });
+
 });
 
