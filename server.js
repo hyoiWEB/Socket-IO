@@ -16,11 +16,20 @@ io.on('connection', (socket) => {
   console.log('Client connected');
   socket.on('disconnect', () => console.log('Client disconnected'));
 
+  //1人目
   socket.on("from_client", function(msg){
    console.log("receive: " + msg);
 
    console.log("send message");
    socket.emit("from_server", msg);
+  });
+
+  //2人目
+  socket.on("from_client2", function(msg){
+   console.log("receive2: " + msg);
+
+   console.log("send message2");
+   socket.emit("from_server2", msg);
   });
 
 });
