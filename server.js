@@ -12,6 +12,9 @@ const server = express()
 
 const io = socketIO(server);
 
+var userList = [];
+var typingUsers = {};
+
 io.on('connection', (socket) => {
   console.log('Client connected');
   socket.on('disconnect', () => console.log('Client disconnected'));
@@ -32,20 +35,13 @@ io.on('connection', (socket) => {
    socket.emit("from_server2", msg);
   });
 
-});
-
-var userList = [];
-var typingUsers = {};
-
-io.on('connection', function(clientSocket){
-  console.log('a user connected');
-
-  clientSocket.on('disconnect', function(){
+  //ルーム
+  socket.on('disconnect', function(){
     console.log('user disconnected');
 
     var clientNickname;
     for (var i=0; i<userList.length; i++) {
-      if (userList[i]["id"] == clientSocket.id) {
+      if (userList[i]["id"] == socket.id) {
         userList[i]["isConnected"] = false;
         clientNickname = userList[i]["nickname"];
         break;
@@ -59,9 +55,9 @@ io.on('connection', function(clientSocket){
   });
 
 
-  clientSocket.on("exitUser", function(clientNickname){
+  socket.on("exitUser", function(clientNickname){
     for (var i=0; i<userList.length; i++) {
-      if (userList[i]["id"] == clientSocket.id) {
+      if (userList[i]["id"] == socket.id) {
         userList.splice(i, 1);
         break;
       }
@@ -70,7 +66,7 @@ io.on('connection', function(clientSocket){
   });
 
 
-  clientSocket.on('chatMessage', function(clientNickname, message){
+  socket.on('chatMessage', function(clientNickname, message){
     var currentDateTime = new Date().toLocaleString();
     delete typingUsers[clientNickname];
     io.emit("userTypingUpdate", typingUsers);
@@ -78,7 +74,7 @@ io.on('connection', function(clientSocket){
   });
 
 
-  clientSocket.on("connectUser", function(clientNickname) {
+  socket.on("connectUser", function(clientNickname) {
       var message = "User " + clientNickname + " was connected.";
       console.log(message);
 
@@ -87,7 +83,7 @@ io.on('connection', function(clientSocket){
       for (var i=0; i<userList.length; i++) {
         if (userList[i]["nickname"] == clientNickname) {
           userList[i]["isConnected"] = true
-          userList[i]["id"] = clientSocket.id;
+          userList[i]["id"] = socket.id;
           userInfo = userList[i];
           foundUser = true;
           break;
@@ -95,7 +91,7 @@ io.on('connection', function(clientSocket){
       }
 
       if (!foundUser) {
-        userInfo["id"] = clientSocket.id;
+        userInfo["id"] = socket.id;
         userInfo["nickname"] = clientNickname;
         userInfo["isConnected"] = true
         userList.push(userInfo);
@@ -106,18 +102,19 @@ io.on('connection', function(clientSocket){
   });
 
 
-  clientSocket.on("startType", function(clientNickname){
+  socket.on("startType", function(clientNickname){
     console.log("User " + clientNickname + " is writing a message...");
     typingUsers[clientNickname] = 1;
     io.emit("userTypingUpdate", typingUsers);
   });
 
 
-  clientSocket.on("stopType", function(clientNickname){
+  socket.on("stopType", function(clientNickname){
     console.log("User " + clientNickname + " has stopped writing a message...");
     delete typingUsers[clientNickname];
     io.emit("userTypingUpdate", typingUsers);
   });
 
 });
+
 
