@@ -17,8 +17,7 @@ var typingUsers = {};
 
 io.on('connection', (socket) => {
   console.log('Client connected');
-  socket.on('disconnect', () => console.log('Client disconnected'));
-
+  
   //1人目
   socket.on("from_client", function(msg){
    console.log("receive: " + msg);
@@ -37,7 +36,7 @@ io.on('connection', (socket) => {
 
   //ルーム
   socket.on('disconnect', function(){
-    console.log('user disconnected');
+    console.log('Client disconnected');
 
     var clientNickname;
     for (var i=0; i<userList.length; i++) {
