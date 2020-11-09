@@ -17,7 +17,7 @@ var typingUsers = {};
 
 io.on('connection', (socket) => {
   console.log('Client connected');
-  
+
   //1人目
   socket.on("from_client", function(msg){
    console.log("receive: " + msg);
@@ -70,6 +70,12 @@ io.on('connection', (socket) => {
     delete typingUsers[clientNickname];
     io.emit("userTypingUpdate", typingUsers);
     io.emit('newChatMessage', clientNickname, message, currentDateTime);
+  });
+
+  socket.on('trackingData', function(clientNickname, message){
+    delete typingUsers[clientNickname];
+    io.emit("userTypingUpdate", typingUsers);
+    io.emit('newtrackingData', clientNickname, message);
   });
 
 
