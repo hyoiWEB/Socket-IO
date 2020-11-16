@@ -18,25 +18,9 @@ var typingUsers = {};
 io.on('connection', (socket) => {
   console.log('Client connected');
 
-  //1人目
-  socket.on("from_client", function(msg){
-   console.log("receive: " + msg);
-
-   console.log("send message");
-   socket.emit("from_server", msg);
-  });
-
-  //2人目
-  socket.on("from_client2", function(msg){
-   console.log("receive2: " + msg);
-
-   console.log("send message2");
-   socket.emit("from_server2", msg);
-  });
-
-  //ルーム
+  //接続が切れたとき退出
   socket.on('disconnect', function(){
-    console.log('Client disconnected');
+    console.log(clientNickname + ' disconnected');
 
     var clientNickname;
     for (var i=0; i<userList.length; i++) {
@@ -53,7 +37,7 @@ io.on('connection', (socket) => {
     io.emit("userTypingUpdate", typingUsers);
   });
 
-
+　
   socket.on("exitUser", function(clientNickname){
     for (var i=0; i<userList.length; i++) {
       if (userList[i]["id"] == socket.id) {
@@ -94,7 +78,7 @@ io.on('connection', (socket) => {
           break;
         }
       }
-
+      //foundUserじゃないとき
       if (!foundUser) {
         userInfo["id"] = socket.id;
         userInfo["nickname"] = clientNickname;
