@@ -20,7 +20,7 @@ io.on('connection', (socket) => {
 
   //接続が切れたとき退出
   socket.on('disconnect', function(){
-    console.log(clientNickname + ' disconnected');
+    console.log('Client disconnected');
 
     var clientNickname;
     for (var i=0; i<userList.length; i++) {
