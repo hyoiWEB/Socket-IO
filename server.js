@@ -87,6 +87,7 @@ io.on('connection', (socket) => {
       }
 
       io.emit("userList", userList);
+      console.log(userList);
       io.emit("userConnectUpdate", userInfo)
   });
 
