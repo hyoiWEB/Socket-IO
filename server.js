@@ -39,6 +39,7 @@ io.on('connection', (socket) => {
 
 　
   socket.on("exitUser", function(clientNickname){
+    console.log('Client exit');
     for (var i=0; i<userList.length; i++) {
       if (userList[i]["id"] == socket.id) {
         userList.splice(i, 1);
@@ -75,6 +76,7 @@ io.on('connection', (socket) => {
           userList[i]["id"] = socket.id;
           userInfo = userList[i];
           foundUser = true;
+          console.log('foundUser');
           break;
         }
       }
@@ -83,6 +85,8 @@ io.on('connection', (socket) => {
         userInfo["id"] = socket.id;
         userInfo["nickname"] = clientNickname;
         userInfo["isConnected"] = true
+        console.log('Not foundUser');
+        //userListにuserInfoを追加
         userList.push(userInfo);
       }
 
