@@ -109,11 +109,6 @@ io.on('connection', (socket) => {
     io.emit("userTypingUpdate", typingUsers);
   });
 
-  socket.on("from_client", function(obj){
-    console.log(obj);
-    io.emit("from_server", obj);
-  });
-
 });
 
 
