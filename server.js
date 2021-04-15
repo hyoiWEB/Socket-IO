@@ -60,7 +60,7 @@ io.on('connection', (socket) => {
   socket.on('trackingData', function(clientNickname, message){
     delete typingUsers[clientNickname];
     io.emit("userTypingUpdate", typingUsers);
-    io.emit('newtrackingData', clientNickname, message);
+    io.emit(`${clientName}`, message);
   });
 
 
