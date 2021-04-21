@@ -1,6 +1,7 @@
 "use strict";
 
 console.log("更新開始");
+console.log("aaa");
 
 const express = require("express");
 const socketIO = require("socket.io");
